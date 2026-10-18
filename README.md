@@ -340,7 +340,14 @@ baseline/current patterns, all explicitly labelled synthetic_demo. Runtime data 
 source filters and badges make the scope visible. Persisted analytics survives backend
 restart and Compose down/up without `-v`. Conversation state remains in memory.
 The dashboard does not restore private transcripts, identifiers, provider metadata or
-free-text risk reasoning; excluded latency metrics remain unavailable. Anomalies are
+free-text risk reasoning. Response performance now averages persisted, real runtime
+measurements from numeric-only `performance_sample` events in the existing SQLite table.
+Phone timings use runtime VAD/endpoint/final, Agent/TTS and provider submission/playback
+acknowledgement clocks. Browser/text requests currently supply measured Agent duration
+only; unavailable voice measurements and older sessions stay unknown (`— (0)`), never zero.
+Synthetic demo events do not contribute measured latency. No database migration or
+frontend redesign is required. Metric definitions: [Analytics contract](docs/ANALYTICS_API_CONTRACT.md#persistent-response-performance).
+Anomalies are
 deterministic advisory volume increases with cold-start protection, without model calls.
 
 Runbook: [FINANCE_DASHBOARD](docs/FINANCE_DASHBOARD.md). Final API:
